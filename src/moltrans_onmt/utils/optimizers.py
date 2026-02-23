@@ -2,16 +2,15 @@
 
 import torch
 import torch.optim as optim
-from torch.nn.utils import clip_grad_norm_
-
 from moltrans_onmt.utils import use_gpu
+from torch.nn.utils import clip_grad_norm_
 
 
 def build_optim(model, opt, checkpoint):
     """Build optimizer"""
     saved_optimizer_state_dict = None
 
-    if opt.train_from:
+    if opt.train_from and checkpoint.get("optim") is not None:
         optim = checkpoint["optim"]
         # We need to save a copy of optim.optimizer.state_dict() for setting
         # the, optimizer state later on in Stage 2 in this method, since
