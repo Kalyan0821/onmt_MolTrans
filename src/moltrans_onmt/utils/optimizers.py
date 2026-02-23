@@ -43,7 +43,7 @@ def build_optim(model, opt, checkpoint):
     # parameters from the model.
     optim.set_parameters(model.named_parameters())
 
-    if opt.train_from:
+    if opt.train_from and (saved_optimizer_state_dict is not None):
         # Stage 2: In this stage, which is only performed when loading an
         # optimizer from a checkpoint, we load the saved_optimizer_state_dict
         # into the re-created optimizer, to set the optim.optimizer.state
