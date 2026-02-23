@@ -8,21 +8,21 @@ from __future__ import division
 import argparse
 import os
 import random
+
 import torch
 
 import moltrans_onmt.opts as opts
-
 from moltrans_onmt.inputters.inputter import (
+    _collect_report_features,
+    _load_fields,
     build_dataset_iter,
     lazily_load_dataset,
-    _load_fields,
-    _collect_report_features,
 )
 from moltrans_onmt.model_builder import build_model
-from moltrans_onmt.utils.optimizers import build_optim
-from moltrans_onmt.trainer import build_trainer
 from moltrans_onmt.models import build_model_saver
+from moltrans_onmt.trainer import build_trainer
 from moltrans_onmt.utils.logging import init_logger, logger
+from moltrans_onmt.utils.optimizers import build_optim
 
 
 def _check_save_model_path(opt):
@@ -96,7 +96,9 @@ def main(opt, device_id):
     if opt.train_from:
         logger.info("Loading checkpoint from %s" % opt.train_from)
         checkpoint = torch.load(
-            opt.train_from, map_location=lambda storage, loc: storage
+            opt.train_from,
+            map_location=lambda storage, loc: storage,
+            weights_only=False,
         )
         model_opt = checkpoint["opt"]
     else:
