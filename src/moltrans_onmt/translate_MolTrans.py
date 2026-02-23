@@ -5,7 +5,7 @@ from __future__ import division, unicode_literals
 
 import argparse
 
-import moltrans_onmt.opts as onmt_opts
+import moltrans_onmt.opts as opts
 from moltrans_onmt.translate.translator import build_translator
 from moltrans_onmt.utils.logging import init_logger
 
@@ -26,8 +26,8 @@ if __name__ == "__main__":
         description="translate.py",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    onmt_opts.add_md_help_argument(parser)
-    onmt_opts.translate_opts(parser)
+    opts.add_md_help_argument(parser)
+    opts.translate_opts(parser)
 
     opt = parser.parse_args()
     logger = init_logger(opt.log_file)
