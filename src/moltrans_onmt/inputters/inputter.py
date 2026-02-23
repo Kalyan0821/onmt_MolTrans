@@ -373,7 +373,10 @@ def build_vocab(
     tgt_vocab = load_vocabulary(tgt_vocab_path, tag="target")
 
     for index, path in enumerate(train_dataset_files):
-        dataset = torch.load(path, weights_only=False)
+        dataset = torch.load(
+            path,
+            weights_only=False,
+        )
         logger.info(" * reloading %s." % path)
         for ex in dataset.examples:
             for k in fields:
@@ -614,7 +617,10 @@ def lazily_load_dataset(corpus_type, opt):
     assert corpus_type in ["train", "valid"]
 
     def _lazy_dataset_loader(pt_file, corpus_type):
-        dataset = torch.load(pt_file)
+        dataset = torch.load(
+            pt_file,
+            weights_only=False,
+        )
         logger.info(
             "Loading %s dataset from %s, number of examples: %d"
             % (corpus_type, pt_file, len(dataset))
