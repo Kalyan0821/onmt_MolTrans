@@ -3,23 +3,20 @@
 Defining general functions for inputters
 """
 
+import gc
 import glob
 import os
-
-from collections import Counter, defaultdict, OrderedDict
+from collections import Counter, OrderedDict, defaultdict
 from itertools import count
 
 import torch
 import torchtext.data
 import torchtext.vocab
-
-from moltrans_onmt.inputters.dataset_base import UNK_WORD, PAD_WORD, BOS_WORD, EOS_WORD
-from moltrans_onmt.inputters.text_dataset import TextDataset
-from moltrans_onmt.inputters.image_dataset import ImageDataset
 from moltrans_onmt.inputters.audio_dataset import AudioDataset
+from moltrans_onmt.inputters.dataset_base import BOS_WORD, EOS_WORD, PAD_WORD, UNK_WORD
+from moltrans_onmt.inputters.image_dataset import ImageDataset
+from moltrans_onmt.inputters.text_dataset import TextDataset
 from moltrans_onmt.utils.logging import logger
-
-import gc
 
 
 def _getstate(self):
@@ -376,7 +373,7 @@ def build_vocab(
     tgt_vocab = load_vocabulary(tgt_vocab_path, tag="target")
 
     for index, path in enumerate(train_dataset_files):
-        dataset = torch.load(path)
+        dataset = torch.load(path, weights_only=False)
         logger.info(" * reloading %s." % path)
         for ex in dataset.examples:
             for k in fields:
